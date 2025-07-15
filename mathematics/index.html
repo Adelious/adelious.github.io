@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Adelious' Mathematics Tools</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          primary: {
+            50: '#eef2ff',
+            100: '#e0e7ff',
+            500: '#6366f1',
+            600: '#4f46e5',
+            700: '#4338ca',
+            800: '#3730a3',
+            900: '#312e81'
+          }
+        }
+      }
+    }
+  }
+</script>
+<!-- KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" />
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {delimiters: [{left:'$$', right:'$$', display:true},{left:'$',right:'$',display:false}]});"></script>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+
+<!-- Mobile menu button -->
+<button id="mobile-menu-btn" class="lg:hidden fixed top-4 left-4 z-50 bg-white p-2 rounded-lg shadow-lg border">
+  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+  </svg>
+</button>
+
+<!-- Mobile overlay -->
+<div id="mobile-overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+<div class="flex min-h-screen">
+  <!-- Sidebar -->
+  <aside id="sidebar" class="w-80 bg-white shadow-xl border-r border-gray-200 h-screen flex flex-col fixed lg:static z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 overflow-y-auto">
+    <!-- Header -->
+    <div class="px-6 py-5 border-b border-gray-200 bg-gradient-to-r from-primary-600 to-primary-700 sticky top-0 z-10">
+      <div class="flex items-center justify-between">
+        <h1 class="text-white font-bold text-lg">Mathematics Tools</h1>
+        <button id="close-sidebar" class="lg:hidden text-white hover:text-gray-200">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <p class="text-primary-100 text-sm mt-1">Par Adelious</p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex-1 overflow-y-auto">
+      <!-- Section Analyse -->
+      <div class="border-b border-gray-200">
+        <button class="w-full px-6 py-4 text-left font-semibold text-gray-700 hover:bg-gray-50 flex items-center justify-between group">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+            </div>
+            <span>Analyse</span>
+          </div>
+          <svg class="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        <nav class="pb-2">
+          <button data-section="cours" data-id="intro" class="cours-item w-full px-6 py-3 text-left text-gray-600 hover:bg-blue-50 hover:text-blue-700 border-l-4 border-transparent hover:border-blue-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Introduction</span>
+            </div>
+          </button>
+          <button data-section="cours" data-id="derive" class="cours-item w-full px-6 py-3 text-left text-gray-600 hover:bg-blue-50 hover:text-blue-700 border-l-4 border-transparent hover:border-blue-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Dérivation</span>
+            </div>
+          </button>
+          <button data-section="cours" data-id="integrale" class="cours-item w-full px-6 py-3 text-left text-gray-600 hover:bg-blue-50 hover:text-blue-700 border-l-4 border-transparent hover:border-blue-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Intégration</span>
+            </div>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Section Algèbre -->
+      <div class="border-b border-gray-200">
+        <button class="w-full px-6 py-4 text-left font-semibold text-gray-700 hover:bg-gray-50 flex items-center justify-between group">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM7 3H5a2 2 0 00-2 2v12a4 4 0 004 4h2a2 2 0 002-2V5a2 2 0 00-2-2z"></path>
+              </svg>
+            </div>
+            <span>Algèbre</span>
+          </div>
+          <svg class="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        <nav class="pb-2">
+          <button data-section="cours" data-id="polynomes" class="cours-item w-full px-6 py-3 text-left text-gray-600 hover:bg-purple-50 hover:text-purple-700 border-l-4 border-transparent hover:border-purple-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Polynômes</span>
+            </div>
+          </button>
+          <button data-section="cours" data-id="division-polynomes" class="cours-item w-full px-6 py-3 text-left text-gray-600 hover:bg-purple-50 hover:text-purple-700 border-l-4 border-transparent hover:border-purple-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Division Polynômiale</span>
+            </div>
+          </button>
+          <button data-section="cours" data-id="pgcd-polynomes" class="cours-item w-full px-6 py-3 text-left text-gray-600 hover:bg-purple-50 hover:text-purple-700 border-l-4 border-transparent hover:border-purple-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>PGCD de Polynômes</span>
+            </div>
+          </button>
+          <button data-section="cours" data-id="multiplication-polynomes" class="cours-item w-full px-6 py-3 text-left text-gray-600 hover:bg-purple-50 hover:text-purple-700 border-l-4 border-transparent hover:border-purple-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Multiplication de Polynômes</span>
+            </div>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Section Arithmétique -->
+      <div class="border-b border-gray-200">
+        <button class="w-full px-6 py-4 text-left font-semibold text-gray-700 hover:bg-gray-50 flex items-center justify-between group">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path>
+              </svg>
+            </div>
+            <span>Arithmétique</span>
+          </div>
+          <svg class="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        <nav class="pb-2">
+          <button data-section="cours" data-id="euclide" class="cours-item w-full px-6 py-3 text-left text-gray-600 hover:bg-orange-50 hover:text-orange-700 border-l-4 border-transparent hover:border-orange-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Algorithme d'Euclide</span>
+            </div>
+          </button>
+          <button data-section="cours" data-id="bezout" class="cours-item w-full px-6 py-3 text-left text-gray-600 hover:bg-orange-50 hover:text-orange-700 border-l-4 border-transparent hover:border-orange-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Bézout</span>
+            </div>
+          </button>
+          <button data-section="cours" data-id="congruences" class="cours-item w-full px-6 py-3 text-left text-gray-600 hover:bg-orange-50 hover:text-orange-700 border-l-4 border-transparent hover:border-orange-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Congruences</span>
+            </div>
+          </button>
+          <button data-section="cours" data-id="nombres-premiers" class="cours-item w-full px-6 py-3 text-left text-gray-600 hover:bg-orange-50 hover:text-orange-700 border-l-4 border-transparent hover:border-orange-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Nombres Premiers</span>
+            </div>
+          </button>
+          <button data-section="cours" data-id="theoreme-gauss" class="cours-item w-full px-6 py-3 text-left text-gray-600 hover:bg-orange-50 hover:text-orange-700 border-l-4 border-transparent hover:border-orange-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Théorème de Gauss</span>
+            </div>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Section Relations -->
+      <div class="border-b border-gray-200">
+        <button class="w-full px-6 py-4 text-left font-semibold text-gray-700 hover:bg-gray-50 flex items-center justify-between group">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+              </svg>
+            </div>
+            <span>Relations</span>
+          </div>
+          <svg class="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        <nav class="pb-2">
+          <button data-section="cours" data-id="relations-equivalence" class="cours-item w-full px-6 py-3 text-left text-gray-600 hover:bg-red-50 hover:text-red-700 border-l-4 border-transparent hover:border-red-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Relations d'Équivalence</span>
+            </div>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Section Outils Pratiques -->
+      <div>
+        <button class="w-full px-6 py-4 text-left font-semibold text-gray-700 hover:bg-gray-50 flex items-center justify-between group">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+            </div>
+            <span>Outils Pratiques</span>
+          </div>
+          <svg class="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        <nav class="pb-2">
+          <button data-section="concret" data-id="evaluate" class="concret-item w-full px-6 py-3 text-left text-gray-600 hover:bg-green-50 hover:text-green-700 border-l-4 border-transparent hover:border-green-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Évaluer</span>
+            </div>
+          </button>
+          <button data-section="concret" data-id="simplify" class="concret-item w-full px-6 py-3 text-left text-gray-600 hover:bg-green-50 hover:text-green-700 border-l-4 border-transparent hover:border-green-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Simplifier</span>
+            </div>
+          </button>
+          <button data-section="concret" data-id="derive" class="concret-item w-full px-6 py-3 text-left text-gray-600 hover:bg-green-50 hover:text-green-700 border-l-4 border-transparent hover:border-green-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Dériver</span>
+            </div>
+          </button>
+          <button data-section="concret" data-id="integrate" class="concret-item w-full px-6 py-3 text-left text-gray-600 hover:bg-green-50 hover:text-green-700 border-l-4 border-transparent hover:border-green-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Intégrer</span>
+            </div>
+          </button>
+          <button data-section="concret" data-id="plot" class="concret-item w-full px-6 py-3 text-left text-gray-600 hover:bg-green-50 hover:text-green-700 border-l-4 border-transparent hover:border-green-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Tracer</span>
+            </div>
+          </button>
+          <button data-section="concret" data-id="polynomial-generator" class="concret-item w-full px-6 py-3 text-left text-gray-600 hover:bg-green-50 hover:text-green-700 border-l-4 border-transparent hover:border-green-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Générateur Polynôme</span>
+            </div>
+          </button>
+          <button data-section="concret" data-id="euclide-calculator" class="concret-item w-full px-6 py-3 text-left text-gray-600 hover:bg-green-50 hover:text-green-700 border-l-4 border-transparent hover:border-green-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Calculateur Euclide</span>
+            </div>
+          </button>
+          <button data-section="concret" data-id="bezout-calculator" class="concret-item w-full px-6 py-3 text-left text-gray-600 hover:bg-green-50 hover:text-green-700 border-l-4 border-transparent hover:border-green-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Calculateur Bézout</span>
+            </div>
+          </button>
+          <button data-section="concret" data-id="congruence-calculator" class="concret-item w-full px-6 py-3 text-left text-gray-600 hover:bg-green-50 hover:text-green-700 border-l-4 border-transparent hover:border-green-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Calculateur Congruences</span>
+            </div>
+          </button>
+          <button data-section="concret" data-id="prime-checker" class="concret-item w-full px-6 py-3 text-left text-gray-600 hover:bg-green-50 hover:text-green-700 border-l-4 border-transparent hover:border-green-500 transition-all">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <span>Test Primalité</span>
+            </div>
+          </button>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
+      <div class="text-xs text-gray-500 text-center">
+        © 2024 Adelious<br>
+        Mathematics Tools v1.0
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 lg:ml-0 p-4 lg:p-8">
+    <!-- Cours Content -->
+    <section id="cours-content" class="hidden">
+      <div class="max-w-4xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+          <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-6">
+            <h2 class="text-2xl font-bold text-white">Cours de Mathématiques</h2>
+            <p class="text-blue-100 mt-2">Apprenez les concepts fondamentaux</p>
+          </div>
+          <div class="p-8">
+            <div id="cours-content-body" class="prose prose-lg max-w-none text-gray-700">
+              <!-- Contenu dynamique -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Concret Content -->
+    <section id="concret-content" class="hidden">
+      <div class="max-w-4xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+          <div class="bg-gradient-to-r from-green-600 to-green-700 px-8 py-6">
+            <h2 class="text-2xl font-bold text-white">Outils Mathématiques</h2>
+            <p class="text-green-100 mt-2">Calculez et visualisez vos expressions</p>
+          </div>
+          
+          <div class="p-8">
+            <form id="form-concret" class="space-y-6">
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Expression mathématique</label>
+                <div class="relative">
+                  <input id="expr" type="text" placeholder="Ex: sin(x)^2 + cos(x)^2"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 text-lg"/>
+                  <div class="absolute right-3 top-3">
+                    <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div id="extra-params" class="hidden">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Valeur de x</label>
+                <input id="xvalue" type="number" value="1" step="any"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200"/>
+              </div>
+
+              <button type="button" id="btn-run"
+                class="w-full bg-gradient-to-r from-primary-600 to-primary-700 text-white py-4 px-6 rounded-xl hover:from-primary-700 hover:to-primary-800 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                <div class="flex items-center justify-center space-x-2">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                  </svg>
+                  <span>Exécuter</span>
+                </div>
+              </button>
+            </form>
+
+            <!-- Results -->
+            <div id="result" class="mt-8 p-6 bg-gray-50 rounded-xl border border-gray-200 min-h-[100px] hidden">
+              <div class="prose max-w-none text-gray-700">
+                <!-- Résultat dynamique -->
+              </div>
+            </div>
+
+            <!-- Evaluation Tree -->
+            <div id="evaluation-tree" class="mt-6 p-6 bg-blue-50 rounded-xl border border-blue-200 hidden">
+              <div class="flex items-center space-x-2 mb-4">
+                <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                  </svg>
+                </div>
+                <h3 class="font-semibold text-blue-800">Arbre d'évaluation</h3>
+              </div>
+              <div id="eval-tree-content" class="font-mono text-sm text-blue-700 bg-white p-4 rounded-lg border border-blue-200 overflow-x-auto"></div>
+            </div>
+
+            <!-- Remainder Tree -->
+            <div id="remainder-tree" class="mt-6 p-6 bg-amber-50 rounded-xl border border-amber-200 hidden">
+              <div class="flex items-center space-x-2 mb-4">
+                <div class="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
+                  <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.871 4A17.926 17.926 0 003 12c0 2.874.673 5.59 1.871 8m14.13 0a17.926 17.926 0 001.87-8c0-2.874-.673-5.59-1.87-8M9 9h1.246a1 1 0 01.961.725l1.586 5.55a1 1 0 00.961.725H15m1-7h-.08a2 2 0 00-1.519.698L9.6 15.302A2 2 0 018.08 16H8"></path>
+                  </svg>
+                </div>
+                <h3 class="font-semibold text-amber-800">Expression symbolique</h3>
+              </div>
+              <div id="rem-tree-content" class="font-mono text-sm text-amber-700 bg-white p-4 rounded-lg border border-amber-200 overflow-x-auto"></div>
+            </div>
+
+            <!-- Chart -->
+            <div id="chart-wrapper" class="mt-8 p-6 bg-gray-50 rounded-xl border border-gray-200 hidden">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-semibold text-gray-800">Graphique de la fonction</h3>
+                <div class="flex items-center space-x-2 text-sm text-gray-600">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                  </svg>
+                  <span>Domaine: [-10, 10]</span>
+                </div>
+              </div>
+              <div class="bg-white p-4 rounded-lg border border-gray-200">
+                <canvas id="plot" height="300"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjs@14.5.2/lib/browser/math.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/nerdamer-prime@1.2.5/all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.min.js"></script>
+<script>
+  // Mobile menu functionality
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const sidebar = document.getElementById('sidebar');
+  const mobileOverlay = document.getElementById('mobile-overlay');
+  const closeSidebar = document.getElementById('close-sidebar');
+
+  mobileMenuBtn.addEventListener('click', () => {
+    sidebar.classList.remove('-translate-x-full');
+    mobileOverlay.classList.remove('hidden');
+  });
+
+  closeSidebar.addEventListener('click', () => {
+    sidebar.classList.add('-translate-x-full');
+    mobileOverlay.classList.add('hidden');
+  });
+
+  mobileOverlay.addEventListener('click', () => {
+    sidebar.classList.add('-translate-x-full');
+    mobileOverlay.classList.add('hidden');
+  });
+
+  // Données cours
+  const coursData = {
+    intro: `
+      <h1 class="text-3xl font-bold text-gray-900 mb-6">Introduction aux Mathématiques</h1>
+      <p class="text-lg text-gray-700 mb-6">Bienvenue dans cet outil mathématique interactif. Explorez les concepts fondamentaux et utilisez nos outils pratiques pour vos calculs.</p>
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+        <h3 class="font-semibold text-blue-800 mb-3">Identité trigonométrique fondamentale</h3>
+        <p class="text-blue-700">L'une des identités les plus importantes en trigonométrie :</p>
+        <div class="mt-3">$$\\sin^2(x) + \\cos^2(x) = 1$$</div>
+      </div>
+      <p class="text-gray-600">Cette identité est à la base de nombreux calculs trigonométriques et sera utilisée dans nos exemples.</p>
+    `,
+    derive: `
+      <h1 class="text-3xl font-bold text-gray-900 mb-6">Dérivation</h1>
+      <p class="text-lg text-gray-700 mb-6">La dérivation est l'opération qui permet de calculer le taux de variation instantané d'une fonction.</p>
+      <div class="bg-green-50 border border-green-200 rounded-lg p-6 mb-6">
+        <h3 class="font-semibold text-green-800 mb-3">Notation</h3>
+        <p class="text-green-700">La dérivée de $f(x)$ par rapport à $x$ peut être notée de plusieurs façons :</p>
+        <div class="mt-3">$$f'(x) = \\frac{df}{dx} = \\frac{d}{dx}f(x)$$</div>
+      </div>
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-6">
+        <h3 class="font-semibold text-yellow-800 mb-3">Exemple classique</h3>
+        <p class="text-yellow-700">Dérivée de la fonction sinus :</p>
+        <div class="mt-3">$$\\frac{d}{dx} \\sin(x) = \\cos(x)$$</div>
+      </div>
+      <p class="text-gray-600">Utilisez notre outil de dérivation pour calculer automatiquement la dérivée de vos expressions.</p>
+    `,
+    integrale: `
+      <h1 class="text-3xl font-bold text-gray-900 mb-6">Intégration</h1>
+      <p class="text-lg text-gray-700 mb-6">L'intégration est l'opération inverse de la dérivation. Elle permet de calculer l'aire sous une courbe.</p>
+      <div class="bg-purple-50 border border-purple-200 rounded-lg p-6 mb-6">
+        <h3 class="font-semibold text-purple-800 mb-3">Définition</h3>
+        <p class="text-purple-700">L'intégrale indéfinie de $f(x)$ est une fonction $F(x)$ telle que :</p>
+        <div class="mt-3">$$F'(x) = f(x)$$</div>
+      </div>
+      <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-6 mb-6">
+        <h3 class="font-semibold text-indigo-800 mb-3">Exemple</h3>
+        <p class="text-indigo-700">Intégrale de la fonction cosinus :</p>
+        <div class="mt-3">$$\\int \\cos(x) \\, dx = \\sin(x) + C$$</div>
+        <p class="text-indigo-600 text-sm mt-2">où $C$ est la constante d'intégration</p>
+      </div>
+      <p class="text-gray-600">Notre outil d'intégration vous permet de calculer les primitives de vos fonctions.</p>
+    `
+  };
+
+  // Références DOM
+  const coursContent = document.getElementById('cours-content');
+  const coursContentBody = document.getElementById('cours-content-body');
+  const concretContent = document.getElementById('concret-content');
+  const resultBox = document.getElementById('result');
+  const exprInput = document.getElementById('expr');
+  const xValueInput = document.getElementById('xvalue');
+  const extraParamsDiv = document.getElementById('extra-params');
+  const btnRun = document.getElementById('btn-run');
+  const chartWrapper = document.getElementById('chart-wrapper');
+  const chartCanvas = document.getElementById('plot');
+  let chartInstance = null;
+
+  // Variables d'état
+  let currentSection = null;
+  let currentId = null;
+  let activeButton = null;
+
+  // Fonction pour mettre à jour l'état visuel des boutons
+  function updateActiveButton(button) {
+    // Réinitialiser tous les boutons
+    document.querySelectorAll('.cours-item, .concret-item').forEach(btn => {
+      btn.classList.remove('bg-blue-100', 'text-blue-700', 'border-blue-500', 'bg-green-100', 'text-green-700', 'border-green-500');
+      btn.classList.add('text-gray-600', 'border-transparent');
+    });
+
+    // Activer le bouton sélectionné
+    if (button) {
+      const section = button.dataset.section;
+      if (section === 'cours') {
+        button.classList.remove('text-gray-600', 'border-transparent');
+        button.classList.add('bg-blue-100', 'text-blue-700', 'border-blue-500');
+      } else {
+        button.classList.remove('text-gray-600', 'border-transparent');
+        button.classList.add('bg-green-100', 'text-green-700', 'border-green-500');
+      }
+    }
+  }
+
+  // Gestion des clics dans la sidebar
+  document.querySelectorAll('button[data-section]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const section = btn.dataset.section;
+      const id = btn.dataset.id;
+
+      if(currentSection !== section || currentId !== id) {
+        currentSection = section;
+        currentId = id;
+        updateActiveButton(btn);
+
+        // Fermer la sidebar mobile après sélection
+        if (window.innerWidth < 1024) {
+          sidebar.classList.add('-translate-x-full');
+          mobileOverlay.classList.add('hidden');
+        }
+
+        if(section === 'cours') {
+          concretContent.classList.add('hidden');
+          coursContent.classList.remove('hidden');
+          coursContentBody.innerHTML = coursData[id] || '<p>Contenu non trouvé.</p>';
+          renderMathInElement(coursContentBody);
+        } else {
+          coursContent.classList.add('hidden');
+          concretContent.classList.remove('hidden');
+          resetForm();
+          setupForm(id);
+        }
+      }
+    });
+  });
+
+  // Setup formulaire selon concret id
+  function setupForm(id) {
+    resultBox.classList.add('hidden');
+    resultBox.innerHTML = '';
+    chartWrapper.classList.add('hidden');
+    extraParamsDiv.classList.add('hidden');
+    document.getElementById('evaluation-tree').classList.add('hidden');
+    document.getElementById('remainder-tree').classList.add('hidden');
+    
+    btnRun.innerHTML = '<div class="flex items-center justify-center space-x-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg><span>Exécuter</span></div>';
+
+    // Afficher certains paramètres selon id
+    if(id === 'evaluate') {
+      extraParamsDiv.classList.remove('hidden');
+    }
+
+    // Changer le texte du bouton selon l'action
+    if(id === 'plot') {
+      btnRun.innerHTML = '<div class="flex items-center justify-center space-x-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg><span>Tracer</span></div>';
+    } else if(id === 'simplify') {
+      btnRun.innerHTML = '<div class="flex items-center justify-center space-x-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.871 4A17.926 17.926 0 003 12c0 2.874.673 5.59 1.871 8m14.13 0a17.926 17.926 0 001.87-8c0-2.874-.673-5.59-1.87-8M9 9h1.246a1 1 0 01.961.725l1.586 5.55a1 1 0 00.961.725H15m1-7h-.08a2 2 0 00-1.519.698L9.6 15.302A2 2 0 018.08 16H8"></path></svg><span>Simplifier</span></div>';
+    } else if(id === 'derive') {
+      btnRun.innerHTML = '<div class="flex items-center justify-center space-x-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg><span>Dériver</span></div>';
+    } else if(id === 'integrate') {
+      btnRun.innerHTML = '<div class="flex items-center justify-center space-x-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg><span>Intégrer</span></div>';
+    } else if(id === 'evaluate') {
+      btnRun.innerHTML = '<div class="flex items-center justify-center space-x-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg><span>Calculer</span></div>';
+    }
+  }
+
+  // Reset formulaire
+  function resetForm() {
+    exprInput.value = '';
+    xValueInput.value = '1';
+    resultBox.classList.add('hidden');
+    resultBox.innerHTML = '';
+    chartWrapper.classList.add('hidden');
+    document.getElementById('evaluation-tree').classList.add('hidden');
+    document.getElementById('remainder-tree').classList.add('hidden');
+    if(chartInstance) {
+      chartInstance.destroy();
+      chartInstance = null;
+    }
+  }
+
+  // Fonction pour afficher les résultats
+  function showResult(content) {
+    resultBox.innerHTML = content;
+    resultBox.classList.remove('hidden');
+  }
+
+  btnRun.addEventListener('click', () => {
+    if(!currentSection || !currentId) return;
+    if(currentSection !== 'concret') return;
+
+    const expr = exprInput.value.trim();
+    if(!expr) {
+      showResult('<div class="flex items-center space-x-2 text-red-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg><span>Veuillez saisir une expression mathématique.</span></div>');
+      return;
+    }
+
+    // Réinitialiser les arbres
+    document.getElementById('evaluation-tree').classList.add('hidden');
+    document.getElementById('remainder-tree').classList.add('hidden');
+
+    switch(currentId) {
+      case 'evaluate': {
+        const xVal = parseFloat(xValueInput.value);
+        try {
+          const nerdExpr = nerdamer(expr);
+          const evalExpr = nerdExpr.evaluate({x: xVal});
+          const evalTex = evalExpr.toTeX();
+          const remainderTex = nerdExpr.simplify().toTeX();
+
+          showResult(`
+            <div class="space-y-4">
+              <div class="flex items-center space-x-2 text-green-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="font-semibold">Résultat calculé avec succès</span>
+              </div>
+              <div class="bg-white p-4 rounded-lg border border-gray-200">
+                <p class="text-gray-700">Pour <strong>x = ${xVal}</strong> :</p>
+                <p class="text-2xl font-bold text-primary-600 mt-2">${evalExpr.text()}</p>
+              </div>
+            </div>
+          `);
+
+          document.getElementById('eval-tree-content').innerHTML = `$${evalTex}$`;
+          document.getElementById('evaluation-tree').classList.remove('hidden');
+          document.getElementById('rem-tree-content').innerHTML = `$${remainderTex}$`;
+          document.getElementById('remainder-tree').classList.remove('hidden');
+
+          renderMathInElement(document.getElementById('evaluation-tree'));
+          renderMathInElement(document.getElementById('remainder-tree'));
+        } catch(e) {
+          showResult(`
+            <div class="flex items-center space-x-2 text-red-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span><strong>Erreur :</strong> ${e.message}</span>
+            </div>
+          `);
+        }
+        chartWrapper.classList.add('hidden');
+        break;
+      }
+
+      case 'simplify': {
+        try {
+          const res = nerdamer.simplify(expr).toTeX();
+          showResult(`
+            <div class="space-y-4">
+              <div class="flex items-center space-x-2 text-green-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="font-semibold">Expression simplifiée</span>
+              </div>
+              <div class="bg-white p-6 rounded-lg border border-gray-200 text-center">
+                <div class="text-2xl">$${res}$</div>
+              </div>
+            </div>
+          `);
+          renderMathInElement(resultBox);
+        } catch(e) {
+          showResult(`
+            <div class="flex items-center space-x-2 text-red-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span><strong>Erreur :</strong> ${e.message}</span>
+            </div>
+          `);
+        }
+        chartWrapper.classList.add('hidden');
+        break;
+      }
+
+      case 'derive': {
+        try {
+          const res = nerdamer.diff(expr, 'x').toTeX();
+          showResult(`
+            <div class="space-y-4">
+              <div class="flex items-center space-x-2 text-green-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="font-semibold">Dérivée calculée</span>
+              </div>
+              <div class="bg-white p-6 rounded-lg border border-gray-200 text-center">
+                <p class="text-gray-600 mb-3">$\\frac{d}{dx}\\left(${nerdamer(expr).toTeX()}\\right) =$</p>
+                <div class="text-2xl text-primary-600">$${res}$</div>
+              </div>
+            </div>
+          `);
+          renderMathInElement(resultBox);
+        } catch(e) {
+          showResult(`
+            <div class="flex items-center space-x-2 text-red-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span><strong>Erreur :</strong> ${e.message}</span>
+            </div>
+          `);
+        }
+        chartWrapper.classList.add('hidden');
+        break;
+      }
+
+      case 'integrate': {
+        try {
+          const res = nerdamer.integrate(expr, 'x').toTeX();
+          showResult(`
+            <div class="space-y-4">
+              <div class="flex items-center space-x-2 text-green-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="font-semibold">Intégrale calculée</span>
+              </div>
+              <div class="bg-white p-6 rounded-lg border border-gray-200 text-center">
+                <p class="text-gray-600 mb-3">$\\int ${nerdamer(expr).toTeX()} \\, dx =$</p>
+                <div class="text-2xl text-primary-600">$${res} + C$</div>
+                <p class="text-sm text-gray-500 mt-3">où C est la constante d'intégration</p>
+              </div>
+            </div>
+          `);
+          renderMathInElement(resultBox);
+        } catch(e) {
+          showResult(`
+            <div class="flex items-center space-x-2 text-red-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span><strong>Erreur :</strong> ${e.message}</span>
+            </div>
+          `);
+        }
+        chartWrapper.classList.add('hidden');
+        break;
+      }
+
+      case 'plot': {
+        try {
+          const compiled = math.compile(expr);
+          const xs = [];
+          const ys = [];
+          for(let x = -10; x <= 10; x += 0.1) {
+            let y;
+            try { y = compiled.evaluate({x}); } catch { y = NaN; }
+            xs.push(x);
+            ys.push(Number.isFinite(y) ? y : null);
+          }
+          
+          if(chartInstance) chartInstance.destroy();
+          
+          chartInstance = new Chart(chartCanvas, {
+            type: 'line',
+            data: {
+              labels: xs.map(x => x.toFixed(1)),
+              datasets: [{
+                label: `y = ${expr}`,
+                data: ys,
+                borderColor: 'rgb(99, 102, 241)',
+                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0.1,
+                fill: false
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: true,
+                  position: 'top',
+                  labels: {
+                    usePointStyle: true,
+                    font: {
+                      size: 14
+                    }
+                  }
+                }
+              },
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                    text: 'x',
+                    font: {
+                      size: 14,
+                      weight: 'bold'
+                    }
+                  },
+                  grid: {
+                    color: 'rgba(0, 0, 0, 0.1)'
+                  }
+                },
+                y: {
+                  title: {
+                    display: true,
+                    text: 'y',
+                    font: {
+                      size: 14,
+                      weight: 'bold'
+                    }
+                  },
+                  grid: {
+                    color: 'rgba(0, 0, 0, 0.1)'
+                  }
+                }
+              },
+              interaction: {
+                intersect: false,
+                mode: 'index'
+              }
+            }
+          });
+          
+          chartWrapper.classList.remove('hidden');
+          showResult(`
+            <div class="flex items-center space-x-2 text-green-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span class="font-semibold">Graphique généré avec succès</span>
+            </div>
+          `);
+        } catch(e) {
+          showResult(`
+            <div class="flex items-center space-x-2 text-red-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span><strong>Erreur :</strong> ${e.message}</span>
+            </div>
+          `);
+          chartWrapper.classList.add('hidden');
+        }
+        break;
+      }
+
+      default:
+        showResult('');
+        chartWrapper.classList.add('hidden');
+    }
+  });
+
+  // Sélectionner par défaut la première section
+  document.querySelector('button[data-section="cours"][data-id="intro"]').click();
+</script>
+
+</body>
+</html>
