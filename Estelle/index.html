@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💝 Ma Valentine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Reenie+Beanie&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Patrick Hand', cursive;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animation des nuages de fond */
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 100px;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .cloud:nth-child(1) {
+            width: 200px;
+            height: 60px;
+            top: 10%;
+            left: -200px;
+            animation-delay: 0s;
+        }
+
+        .cloud:nth-child(2) {
+            width: 150px;
+            height: 50px;
+            top: 30%;
+            left: -150px;
+            animation-delay: 5s;
+        }
+
+        .cloud:nth-child(3) {
+            width: 180px;
+            height: 55px;
+            top: 60%;
+            left: -180px;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateX(0) translateY(0);
+            }
+            50% {
+                transform: translateX(calc(100vw + 200px)) translateY(-20px);
+            }
+        }
+
+        .letter-container {
+            background: #fff9f9;
+            padding: 60px 50px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            position: relative;
+            max-width: 500px;
+            width: 90%;
+            border: 3px dashed #ff9db5;
+            animation: appear 0.8s ease-out;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Effet de couture en pointillé */
+        .letter-container::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 2px dashed #ffb3c6;
+            border-radius: 15px;
+            pointer-events: none;
+        }
+
+        .hearts {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 40px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: translateX(-50%) scale(1);
+            }
+            50% {
+                transform: translateX(-50%) scale(1.1);
+            }
+        }
+
+        h1 {
+            font-family: 'Reenie Beanie', cursive;
+            font-size: 48px;
+            text-align: center;
+            color: #d63384;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        .question {
+            font-size: 28px;
+            text-align: center;
+            color: #c2185b;
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+
+        .buttons-container {
+            position: relative;
+            min-height: 120px;
+            width: 100%;
+        }
+
+        button {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 24px;
+            padding: 15px 40px;
+            border: 3px solid;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: absolute;
+        }
+
+        #yesBtn {
+            background: #ff4081;
+            color: white;
+            border-color: #e91e63;
+            left: 50%;
+            top: 50%;
+            transform: translate(calc(-100% - 10px), -50%);
+            z-index: 999;
+        }
+
+        #yesBtn:hover {
+            background: #e91e63;
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+        }
+
+        #noBtn {
+            background: #f8bbd0;
+            color: #c2185b;
+            border-color: #f48fb1;
+            transition: none !important;
+            position: fixed;
+            z-index: 1000;
+        }
+
+        #noBtn:hover {
+            background: #f48fb1;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            animation: appear 0.8s ease-out;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-message h2 {
+            font-family: 'Reenie Beanie', cursive;
+            font-size: 56px;
+            color: #d63384;
+            margin-bottom: 20px;
+        }
+
+        .success-message p {
+            font-size: 22px;
+            color: #c2185b;
+            line-height: 1.6;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ff4081;
+            position: absolute;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        #kylian{
+            position: fixed;
+            bottom: 0px;
+            left: 20px;
+            width: 750px;
+        }
+
+        #estelle{
+            position: fixed;
+            bottom: 0px;
+            right: 20px;
+            width: 800px;
+        }
+
+        #kiss{
+            position: fixed;
+            bottom: 0px;
+            left: 0%;
+            width: 800px;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .emoji-rain {
+            position: fixed;
+            font-size: 30px;
+            animation: fall 4s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Nuages flottants -->
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+
+    <div class="letter-container">
+        <div class="hearts">💕</div>
+        
+        <div id="question-content">
+            <h1>Estelle Pasquier...</h1>
+            <p class="question">Veux-tu être ma Valentine ? 💝</p>
+            
+            <div class="buttons-container" id="buttonsContainer">
+                <button id="yesBtn">Oui ! 💖</button>
+                <button id="noBtn">Non</button>
+            </div>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <h2>Youpi ! 🎉💝</h2>
+            <p> </p>
+            <p style="margin-top: 20px; font-size: 28px;">Je t'aime mon amoureuse ! 💕</p>
+            <p style="margin-top: 30px; font-size: 18px;">✨ J'ai hâte de te voir ✨</p>
+        </div>
+    </div>
+
+    <img id="kylian" src="./images/kylianobg.png">
+    <img id="estelle" src="./images/estelleobg.png">
+
+    <img id="kiss" src="./images/kiss.png" style="display: none;">
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const questionContent = document.getElementById('question-content');
+        const successMessage = document.getElementById('successMessage');
+        const container = document.getElementById('buttonsContainer');
+        const kissImage = document.getElementById('kiss');
+        const kylianImage = document.getElementById('kylian');
+        const estelleImage = document.getElementById('estelle');
+
+        // Positionner initialement le bouton "Non" à côté du bouton "Oui"
+        window.addEventListener('load', function() {
+            positionNoButtonInitially();
+        });
+
+        function positionNoButtonInitially() {
+            const yesBtnRect = yesBtn.getBoundingClientRect();
+            noBtn.style.left = (yesBtnRect.right + 20) + 'px';
+            noBtn.style.top = yesBtnRect.top + 'px';
+        }
+
+        // Fonction pour vérifier si deux rectangles se chevauchent
+        function isOverlapping(rect1, rect2, margin = 10) {
+            return !(rect1.right + margin < rect2.left || 
+                     rect1.left - margin > rect2.right || 
+                     rect1.bottom + margin < rect2.top || 
+                     rect1.top - margin > rect2.bottom);
+        }
+
+        // Fonction pour déplacer le bouton "Non" aléatoirement partout sur la page
+        noBtn.addEventListener('mouseenter', function() {
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+            const yesBtnRect = yesBtn.getBoundingClientRect();
+            
+            // Utiliser les dimensions de la fenêtre entière
+            const maxX = window.innerWidth - btnWidth;
+            const maxY = window.innerHeight - btnHeight;
+            
+            let randomX, randomY, newPosition;
+            let attempts = 0;
+            const maxAttempts = 50;
+            
+            // Essayer de trouver une position qui ne chevauche pas le bouton "Oui"
+            do {
+                randomX = Math.random() * maxX;
+                randomY = Math.random() * maxY;
+                
+                // Créer un rectangle virtuel pour la nouvelle position
+                newPosition = {
+                    left: randomX,
+                    right: randomX + btnWidth,
+                    top: randomY,
+                    bottom: randomY + btnHeight
+                };
+                
+                attempts++;
+            } while (isOverlapping(newPosition, yesBtnRect, 20) && attempts < maxAttempts);
+            
+            // Appliquer la nouvelle position
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        });
+
+        // Quand on clique sur "Oui"
+        yesBtn.addEventListener('click', function() {
+            questionContent.style.display = 'none';
+            successMessage.classList.add('show');
+            kissImage.style.display = 'block';
+            kylianImage.style.display = 'none';
+            estelleImage.style.display = 'none';
+            
+            // Créer des confettis et des emojis
+            createCelebration();
+        });
+
+        function createCelebration() {
+            const emojis = ['💖', '💕', '💝', '💗', '💓', '💞', '❤️', '🌹'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const emoji = document.createElement('div');
+                    emoji.classList.add('emoji-rain');
+                    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    emoji.style.left = Math.random() * 100 + 'vw';
+                    emoji.style.animationDelay = Math.random() * 2 + 's';
+                    emoji.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                    document.body.appendChild(emoji);
+                    
+                    setTimeout(() => emoji.remove(), 5000);
+                }, i * 100);
+            }
+        }
+    </script>
+</body>
+</html>
